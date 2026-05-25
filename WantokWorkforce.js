@@ -1671,13 +1671,17 @@ export default function App() {
         <View
           style={{
             marginLeft: "auto",
-            backgroundColor: COLORS.accent,
-            borderRadius: 6,
-            paddingVertical: 2,
-            paddingHorizontal: 8,
+            backgroundColor: COLORS.primaryLight,
+            width: 32,
+            height: 32,
+            borderRadius: 16,
+            alignItems: "center",
+            justifyContent: "center",
+            borderWidth: 1.5,
+            borderColor: "rgba(255,255,255,0.4)",
           }}
         >
-          <Text style={{ color: "#fff", fontSize: 10, fontWeight: "700" }}>PNG</Text>
+          <Text style={{ fontSize: 16 }}>🤝</Text>
         </View>
       </View>
 
