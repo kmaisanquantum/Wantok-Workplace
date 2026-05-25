@@ -1467,6 +1467,93 @@ const NAV_ITEMS = [
 
 // ─── MAIN APP ───────────────────────────────────────────────────────────────
 
+function BookingsScreen({ onNavigate }) {
+  const [bookings] = useState([
+    { id: 1, workerName: "James Kapi", service: "Electrical Repair", date: "2024-05-20", status: "Completed", amount: "K150" },
+    { id: 2, workerName: "Mary Teine", service: "Tax Consultation", date: "2024-05-25", status: "Upcoming", amount: "K200" },
+    { id: 3, workerName: "Peter Aihi", service: "Plumbing Maintenance", date: "2024-05-15", status: "Completed", amount: "K120" },
+  ]);
+
+  return (
+    <View style={{ flex: 1, backgroundColor: COLORS.bg }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <LinearGradient
+          colors={[COLORS.primaryDark, COLORS.primary]}
+          style={{
+            paddingVertical: 20,
+            paddingHorizontal: 16,
+            paddingBottom: 24,
+          }}
+        >
+          <Text style={{ color: "#fff", fontSize: 18, fontWeight: "800" }}>
+            My Bookings
+          </Text>
+          <Text style={{ color: "rgba(255,255,255,0.75)", marginTop: 4, fontSize: 13 }}>
+            History & Upcoming Jobs
+          </Text>
+        </LinearGradient>
+
+        <View style={{ padding: 16, gap: 12 }}>
+          {bookings.map((b) => (
+            <View
+              key={b.id}
+              style={{
+                backgroundColor: "#fff",
+                borderRadius: 14,
+                padding: 16,
+                elevation: 1,
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.05,
+                shadowRadius: 6,
+                borderWidth: 1,
+                borderColor: COLORS.border,
+              }}
+            >
+              <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 8 }}>
+                <Text style={{ fontWeight: "700", fontSize: 15, color: COLORS.text }}>
+                  {b.service}
+                </Text>
+                <Text style={{ fontWeight: "700", fontSize: 14, color: COLORS.primary }}>
+                  {b.amount}
+                </Text>
+              </View>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                <View>
+                  <Text style={{ fontSize: 13, color: COLORS.textMuted }}>
+                    Worker: {b.workerName}
+                  </Text>
+                  <Text style={{ fontSize: 13, color: COLORS.textMuted, marginTop: 2 }}>
+                    Date: {b.date}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: b.status === "Upcoming" ? "#EFF6FF" : "#F0FDF4",
+                    borderRadius: 8,
+                    paddingVertical: 4,
+                    paddingHorizontal: 10,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: b.status === "Upcoming" ? "#1D4ED8" : "#059669",
+                      fontSize: 11,
+                      fontWeight: "700",
+                    }}
+                  >
+                    {b.status}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
+
 function AuthScreen({ onAuth }) {
   const [mode, setMode] = useState("signin");
   const [email, setEmail] = useState("");
