@@ -804,7 +804,7 @@ function WorkerDetailScreen({ worker, onNavigate }) {
           <TouchableOpacity
             onPress={() => {
               setBooked(true);
-              onNavigate("booking", worker);
+              onNavigate("createBooking", worker);
             }}
             style={{
               flex: 2,
@@ -833,11 +833,13 @@ function WorkerDetailScreen({ worker, onNavigate }) {
   );
 }
 
-function BookingScreen({ worker, onNavigate }) {
+function CreateBookingScreen({ worker, onNavigate }) {
   const [type, setType] = useState("on-demand");
   const [confirmed, setConfirmed] = useState(false);
   const [date, setDate] = useState("");
   const [note, setNote] = useState("");
+
+  if (!worker) return null;
 
   if (confirmed)
     return (
@@ -1617,8 +1619,10 @@ export default function App() {
         return <HomeScreen onNavigate={navigate} currentUser={currentUser} />;
       case "workerDetail":
         return <WorkerDetailScreen worker={screenData} onNavigate={navigate} />;
+      case "createBooking":
+        return <CreateBookingScreen worker={screenData} onNavigate={navigate} />;
       case "booking":
-        return <BookingScreen worker={screenData} onNavigate={navigate} />;
+        return <BookingsScreen onNavigate={navigate} />;
       case "trust":
         return <TrustScreen onNavigate={navigate} />;
       case "profile":
