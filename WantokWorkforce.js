@@ -1847,15 +1847,43 @@ function AuthScreen({ onAuth }) {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
-  const handleSignIn = () => {
-    onAuth({ email, phone, name: name || "User" }, false);
+  const handleSignIn = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier: phone || email, password })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        onAuth({ ...data.user, token: data.token }, false);
+      } else {
+        alert(data.error || 'Signin failed');
+      }
+    } catch (error) {
+      alert('Network error. Is the server running?');
+    }
   };
 
-  const handleSignUpNext = () => {
+  const handleSignUpNext = async () => {
     if (signUpStep === 1) {
       setSignUpStep(2);
     } else {
-      onAuth({ email, phone, name }, true);
+      try {
+        const response = await fetch('http://localhost:8000/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, password })
+        });
+        const data = await response.json();
+        if (response.ok) {
+          onAuth({ ...data.user, token: data.token }, true);
+        } else {
+          alert(data.error || 'Signup failed');
+        }
+      } catch (error) {
+        alert('Network error. Is the server running?');
+      }
     }
   };
 

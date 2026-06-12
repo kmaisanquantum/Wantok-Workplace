@@ -11,7 +11,7 @@ const { authMiddleware } = require('../middlewares/auth');
 router.post('/signup', AuthController.signup);
 
 // POST /api/auth/signin -> Validates credentials
-router.post('/login', AuthController.login);
+router.post('/signin', AuthController.login);
 
 // POST /api/auth/select-role -> Initial role selection right after signup
 router.post('/select-role', authMiddleware, AuthController.selectRole);

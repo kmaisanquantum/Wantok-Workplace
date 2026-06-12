@@ -17,7 +17,7 @@ class AuthController {
       const passwordHash = await bcrypt.hash(password, saltRounds);
 
       const user = await UserModel.create({ name, phone, email, passwordHash });
-      const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '7d' });
+      const token = jwt.sign({ id: user.id, role: user.active_persona }, JWT_SECRET, { expiresIn: '7d' });
 
       return res.status(201).json({
         message: 'Account created. Please select your initial role.',
@@ -46,7 +46,7 @@ class AuthController {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
 
-      const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '7d' });
+      const token = jwt.sign({ id: user.id, role: user.active_persona }, JWT_SECRET, { expiresIn: '7d' });
 
       return res.status(200).json({
         message: 'Login successful',
