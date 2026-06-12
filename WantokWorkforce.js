@@ -1994,6 +1994,31 @@ function AuthScreen({ onAuth }) {
 }
 
 
+
+function AdminScreen({ onNavigate }) {
+  return (
+    <View style={{ flex: 1, backgroundColor: COLORS.bg, padding: 16 }}>
+      <Text style={{ fontSize: 20, fontWeight: "800", color: COLORS.text, marginBottom: 16 }}>
+        Admin Control Panel
+      </Text>
+      <View style={{ gap: 12 }}>
+        <View style={{ backgroundColor: "#fff", padding: 16, borderRadius: 12, elevation: 2 }}>
+          <Text style={{ fontSize: 14, color: COLORS.textMuted }}>Total Workers</Text>
+          <Text style={{ fontSize: 24, fontWeight: "800", color: COLORS.primary }}>1,248</Text>
+        </View>
+        <View style={{ backgroundColor: "#fff", padding: 16, borderRadius: 12, elevation: 2 }}>
+          <Text style={{ fontSize: 14, color: COLORS.textMuted }}>Pending Verifications</Text>
+          <Text style={{ fontSize: 24, fontWeight: "800", color: "#F5A623" }}>42</Text>
+        </View>
+        <View style={{ backgroundColor: "#fff", padding: 16, borderRadius: 12, elevation: 2 }}>
+          <Text style={{ fontSize: 14, color: COLORS.textMuted }}>Active Disputes</Text>
+          <Text style={{ fontSize: 24, fontWeight: "800", color: COLORS.danger }}>7</Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
 export default function App() {
   const [screen, setScreen] = useState("home");
   const [screenData, setScreenData] = useState(null);
@@ -2058,6 +2083,8 @@ export default function App() {
         return <BookingsScreen onNavigate={navigate} />;
       case "trust":
         return <TrustScreen onNavigate={navigate} />;
+      case "admin":
+        return <AdminScreen onNavigate={navigate} />;
       case "profile":
         return (
           <ProfileScreen
@@ -2119,20 +2146,35 @@ export default function App() {
         >
           WANTOK WORKFORCE
         </Text>
-        <View
-          style={{
-            marginLeft: "auto",
-            backgroundColor: COLORS.primaryLight,
-            width: 32,
-            height: 32,
-            borderRadius: 16,
-            alignItems: "center",
-            justifyContent: "center",
-            borderWidth: 1.5,
-            borderColor: "rgba(255,255,255,0.4)",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>🤝</Text>
+        <View style={{ marginLeft: "auto", flexDirection: "row", backgroundColor: "rgba(0,0,0,0.1)", borderRadius: 8, padding: 2 }}>
+          {['customer', 'provider', 'admin'].map((role) => (
+            <TouchableOpacity
+              key={role}
+              onPress={() => {
+                setCurrentUser(role);
+                if (role === "customer" || role === "admin") {
+                  setOnboardingComplete(true);
+                  if (role === "admin") navigate("admin");
+                  else navigate("home");
+                } else {
+                  // provider
+                  if (user?.role && user?.location) setOnboardingComplete(true);
+                  else setOnboardingComplete(false);
+                  navigate("home");
+                }
+              }}
+              style={{
+                paddingHorizontal: 8,
+                paddingVertical: 4,
+                borderRadius: 6,
+                backgroundColor: currentUser === role ? (role === "admin" ? "#C47F0A" : COLORS.primary) : "transparent",
+              }}
+            >
+              <Text style={{ color: "#fff", fontSize: 10, fontWeight: "700", textTransform: "capitalize" }}>
+                {role.substring(0, 4)}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
 
