@@ -1,0 +1,10 @@
+
+> wantok-workforce@1.0.1 serve
+> node backend/server.js
+
+Wantok Unified Server running on port 3000
+🔗 Connecting to database...
+❌ CRITICAL ERROR during startup:
+Type: AggregateError
+Message:
+💡 Recommendation: Check if the database server is running and accessible.
